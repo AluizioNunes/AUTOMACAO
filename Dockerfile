@@ -1,5 +1,5 @@
 # Estágio de build
-FROM node:24-alpine AS builder
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
@@ -8,8 +8,8 @@ COPY package*.json ./
 COPY tsconfig.json ./
 COPY vite.config.ts ./
 
-# Instalar dependências
-RUN npm ci
+# Instalar dependências (mais tolerante a lockfile e peer deps)
+RUN npm install --no-audit --no-fund --legacy-peer-deps
 
 # Copiar o restante do código
 COPY . .
